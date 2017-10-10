@@ -106,6 +106,22 @@ class Game {
         if(y + 1 < this.height) {
             this.reveal(x, y + 1);
         }
+
+        if(x - 1 >= 0 && y - 1 >= 0) {
+            this.reveal(x - 1, y - 1);
+        }
+
+        if(x + 1 < this.width && y - 1 >= 0) {
+            this.reveal(x + 1, y - 1);
+        }
+
+        if(x - 1 >= 0 && y + 1 < this.height) {
+            this.reveal(x - 1, y + 1);
+        }
+
+        if(x + 1 < this.width && y + 1 < this.height) {
+            this.reveal(x + 1, y + 1);
+        }
     }
 
     flag(x, y) {
