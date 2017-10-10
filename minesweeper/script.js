@@ -59,11 +59,12 @@ class Game {
                 minesweeper.textures.draw(this.getTile(x, y).ID, x * this.tileSize, y * this.tileSize);
             }
         }
+        enableContextMenu(true);
     }
 
     reveal(x, y) {
         var tile = this.getTile(x, y);
-        if(tile.revealed) {
+        if(tile.revealed || tile.flagged) {
             return;
         }
 
@@ -209,6 +210,7 @@ class Game {
             }
         }
         this.ignoreInput = false;
+        enableContextMenu(false);
     }
 
     _setupCanvas() {
