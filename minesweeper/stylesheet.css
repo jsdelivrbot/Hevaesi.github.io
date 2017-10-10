@@ -1,0 +1,9 @@
+canvas {
+    image-rendering: pixelated;
+}
+
+body {
+    background: #202028;
+    color : #ffffff;
+    text-align : center;
+}
