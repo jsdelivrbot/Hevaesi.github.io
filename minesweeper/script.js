@@ -51,15 +51,12 @@ class Game {
 
     revealEverything(victory) {
         this.ignoreInput = true;
-        if(victory) {
-            this.killMines();
-        }
+        this.killMines(victory);
         for(let y = 0; y < this.height; y++) {
             for(let x = 0; x < this.width; x++) {
                 minesweeper.textures.draw(this.getTile(x, y).ID, x * this.tileSize, y * this.tileSize);
             }
         }
-        enableContextMenu(true);
     }
 
     reveal(x, y) {
@@ -162,11 +159,13 @@ class Game {
         }
     }
 
-    killMines() {
+    killMines(all) {
         for(let y = 0; y < this.height; y++) {
             for(let x = 0; x < this.width; x++) {
                 var tile = this.getTile(x, y);
-                if(tile.ID === minesweeper.Tiles.Mine) {
+                if(tile.ID === minesweeper.Tiles.Mine && all) {
+                    tile.ID = minesweeper.Tiles.MineEliminated;
+                } else if(tile.ID === minesweeper.Tiles.Mine && tile.flagged) {
                     tile.ID = minesweeper.Tiles.MineEliminated;
                 }
             }
@@ -211,7 +210,6 @@ class Game {
                     }
                 }
                 tile.neighbours = neighbours;
-                console.log(neighbours);
             }
         }
     }
