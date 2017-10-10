@@ -210,7 +210,6 @@ class Game {
             }
         }
         this.ignoreInput = false;
-        enableContextMenu(false);
     }
 
     _setupCanvas() {
