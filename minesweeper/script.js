@@ -151,6 +151,11 @@ class Game {
         var cellY = Math.floor(y / this.tileSize);
 
         if(button === minesweeper.Mouse.Left) {
+            if(this.firstClick === true) {
+                this.firstClick = false;
+                this.clearFirstClick(cellX, cellY);
+                this.calculateNeighbouringMines();
+            }
             this.reveal(cellX, cellY);
         }
 
@@ -190,6 +195,17 @@ class Game {
         }
     }
 
+    clearFirstClick(x, y) {
+        for(let _y = y - 1; _y <= y + 1; _y++) {
+            for(let _x = x - 1; _x <= x + 1; _x++) {
+                if(_x >= 0 && _x < this.width && _x >= 0 && _y < this.height) {
+                    this.getTile(_x, _y).ID = minesweeper.Tiles.Unrevealed;
+                    console.log("Clearing (" + _x + "," + _y + ")");
+                }
+            }
+        }
+    }
+
     calculateNeighbouringMines() {
         for(let y = 0; y < this.height; y++) {
             for(let x = 0; x < this.width; x++) {
@@ -217,13 +233,13 @@ class Game {
     start() {
         this._setupCanvas();
         this.generateNewMinefield();
-        this.calculateNeighbouringMines();
         for(let y = 0; y < this.height; y++) {
             for(let x = 0; x < this.width; x++) {
                 minesweeper.textures.draw(minesweeper.Tiles.Unrevealed, x * this.tileSize, y * this.tileSize);
             }
         }
         this.ignoreInput = false;
+        this.firstClick = true;
     }
 
     _setupCanvas() {
