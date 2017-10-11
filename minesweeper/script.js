@@ -172,6 +172,8 @@ class Game {
                     tile.ID = minesweeper.Tiles.MineEliminated;
                 } else if(tile.ID === minesweeper.Tiles.Mine && tile.flagged) {
                     tile.ID = minesweeper.Tiles.MineEliminated;
+                } else if(tile.ID !== minesweeper.Tiles.Mine && all) {
+                    tile.ID = tile.neighbours;
                 }
             }
         }
