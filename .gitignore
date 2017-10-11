@@ -1,2 +1,5 @@
 # ignore batch files
 *.bat
+
+# ignore testing html files
+test.html
