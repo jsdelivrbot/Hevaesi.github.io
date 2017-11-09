@@ -1,7 +1,14 @@
 var ce = {
-    "cSize" : {
-        "width" : 800,
-        "height" : 600
+    cSize : {
+        width : 800,
+        height : 600
+    },
+    vConstraints : {
+        audio : false,
+        video : {
+            width : 800,
+            height : 600
+        }
     }
 };
 
@@ -14,23 +21,20 @@ function setupScopeVariables(scope) {
 }
 
 function enableCamera() {
-    navigator.getUserMedia(
-        {video : true}, 
-        (stream) => {
-            ce.video.src = window.URL.createObjectURL(stream);
+    navigator.mediaDevices.getUserMedia(ce.vConstraints)
+    .then((stream) => {
+        ce.video.srcObject = stream;
+        ce.video.onloadedmetadata = () => {
             ce.video.play();
-            ce.video.onplay = () => {
-                showVideo();
-            }
-        },
-        (err) => {
-            displayErrorMessage("There was an error with accessing camera stream: " + err.name, err);
         }
-    );
+    })
+    .catch((err) => {
+        console.log(err.name + " " + err.message);
+    });
 }
 
-function showVideo() {
-    ce.video.classList.add("visible");
+function drawOnCanvas() {
+    ce.ctx.drawImage(ce.video, 0, 0)
 }
 
 setupScopeVariables(ce);
