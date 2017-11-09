@@ -3,8 +3,9 @@
 	<head>
 		<title>Accessing Web Camera in JS</title>
 		<style>
-			.video {
+			video {
 				display: none;
+				visibility: hidden;
 			}
 		</style>
 	</head>
@@ -25,7 +26,7 @@
 
 			function streamWebCam (stream) {
 				video.src = window.URL.createObjectURL(stream);
-				//video.play();
+				video.play();
 			}
 
 			function throwError (e) {
