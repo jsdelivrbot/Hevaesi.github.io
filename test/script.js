@@ -26,6 +26,7 @@ function enableCamera() {
         ce.video.srcObject = stream;
         ce.video.onloadedmetadata = () => {
             ce.video.play();
+            drawOnCanvas();
         }
     })
     .catch((err) => {
