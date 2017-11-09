@@ -27,7 +27,6 @@ function enableCamera() {
         ce.video.onloadedmetadata = () => {
             console.log("Loaded?");
             ce.video.play();
-            drawOnCanvas();
         }
     })
     .catch((err) => {
@@ -43,3 +42,4 @@ function drawOnCanvas() {
 
 setupScopeVariables(ce);
 enableCamera();
+drawOnCanvas();
