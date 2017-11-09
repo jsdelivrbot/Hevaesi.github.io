@@ -24,10 +24,10 @@ function enableCamera() {
     navigator.mediaDevices.getUserMedia(ce.vConstraints)
     .then((stream) => {
         ce.video.srcObject = stream;
-        ce.video.onloadedmetadata = () => {
-            console.log("Loaded?");
+        ce.video.addEventListener("loadedmetadata", () => {
             ce.video.play();
-        }
+            drawOnCanvas();
+        })
     })
     .catch((err) => {
         console.log(err.name + " " + err.message);
