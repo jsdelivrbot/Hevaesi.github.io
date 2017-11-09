@@ -2,6 +2,11 @@
 <html>
 	<head>
 		<title>Accessing Web Camera in JS</title>
+		<style>
+			video {
+				display: none;
+			}
+		</style>
 	</head>
 	<body>
 		<video id="video"></video>
@@ -33,6 +38,8 @@
 				context.drawImage(video, 0, 0);
 				requestAnimationFrame(snap);
 			}
+			
+			snap();
 		</script>
 	</body>
 </html>
