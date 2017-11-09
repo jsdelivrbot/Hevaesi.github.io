@@ -25,6 +25,7 @@ function enableCamera() {
     .then((stream) => {
         ce.video.srcObject = stream;
         ce.video.onloadedmetadata = () => {
+            console.log("Loaded?");
             ce.video.play();
             drawOnCanvas();
         }
