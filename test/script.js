@@ -35,7 +35,8 @@ function enableCamera() {
 }
 
 function drawOnCanvas() {
-    ce.ctx.drawImage(ce.video, 0, 0)
+    ce.ctx.drawImage(ce.video, 0, 0);
+    requestAnimationFrame(drawOnCanvas);
 }
 
 setupScopeVariables(ce);
