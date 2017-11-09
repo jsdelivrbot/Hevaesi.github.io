@@ -35,6 +35,7 @@ function enableCamera() {
 }
 
 function drawOnCanvas() {
+    console.log("Drawing?");
     ce.ctx.drawImage(ce.video, 0, 0);
     requestAnimationFrame(drawOnCanvas);
 }
