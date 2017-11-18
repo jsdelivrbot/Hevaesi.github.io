@@ -1,0 +1,14 @@
+canvas {
+    width: 800px;
+    height: 600px;
+    image-rendering: pixelated;
+    border: solid 5px #3B3738;
+    border-radius: 5px;
+}
+
+body {
+    background-color: #000000;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
