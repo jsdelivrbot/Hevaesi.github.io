@@ -28,30 +28,6 @@ class NoiseGenerator {
         return a + t * (b - a);
     }
 
-    grad1D(hash, x) {
-        switch(hash & 0x1) {
-            case 0x0: return  x;
-            case 0x1: return -x;
-        }
-    }
-
-    noise1D(x) {
-        var xi = Math.floor(x) & 0xFF;
-        var xf = x - Math.floor(x);
-        var u = this.fade(xf);
-
-        var a = this.p[xi    ];
-        var b = this.p[xi + 1];
-
-        var y = this.lerp(
-            this.grad1D(a, xf    ),
-            this.grad1D(b, xf - 1),
-            u
-        );
-
-        return y;
-    }
-
     grad2D(hash, x, y) {
         switch(hash & 0x7) {
             case 0x0: return      y;
@@ -66,7 +42,9 @@ class NoiseGenerator {
     }
 
     noise2D(x, y) {
-        var xi = Math.floor(Math.abs(x)) & 0xFF; // temporary(?) fix for negative coordinates
+        x %= 255;
+        y %= 255;
+        var xi = Math.floor(Math.abs(x)) & 0xFF;
         var yi = Math.floor(Math.abs(y)) & 0xFF;
         var xf = x - Math.floor(x);
         var yf = y - Math.floor(y);
@@ -90,74 +68,5 @@ class NoiseGenerator {
         );
 
         return this.lerp(y1, y2, v);
-    }
-
-    grad3D(hash, x, y, z) {
-        switch(hash & 0xF) {
-            case 0x0: return  x + y;
-            case 0x1: return -x + y;
-            case 0x2: return  x - y;
-            case 0x3: return -x - y;
-            case 0x4: return  x + z;
-            case 0x5: return -x + z;
-            case 0x6: return  x - z;
-            case 0x7: return -x - z;
-            case 0x8: return  y + z;
-            case 0x9: return -y + z;
-            case 0xA: return  y - z;
-            case 0xB: return -y - z;
-            case 0xC: return  y + x;
-            case 0xD: return -y + z;
-            case 0xE: return  y - x;
-            case 0xF: return -y - z;
-        }
-    }
-
-    noise3D(x, y, z) {
-        var xi = Math.floor(x) & 0xFF;
-        var yi = Math.floor(y) & 0xFF;
-        var zi = Math.floor(z) & 0xFF;
-        var xf = x - Math.floor(x);
-        var yf = y - Math.floor(y);
-        var zf = z - Math.floor(z);
-        var u = this.fade(xf);
-        var v = this.fade(yf);
-        var w = this.fade(zf);
-
-        var aaa = this.p[this.p[this.p[xi    ] + yi    ] + zi    ];
-        var aba = this.p[this.p[this.p[xi    ] + yi + 1] + zi    ]; 
-        var aab = this.p[this.p[this.p[xi    ] + yi    ] + zi + 1]; 
-        var abb = this.p[this.p[this.p[xi    ] + yi + 1] + zi + 1]; 
-        var baa = this.p[this.p[this.p[xi + 1] + yi    ] + zi    ]; 
-        var bba = this.p[this.p[this.p[xi + 1] + yi + 1] + zi    ]; 
-        var bab = this.p[this.p[this.p[xi + 1] + yi    ] + zi + 1]; 
-        var bbb = this.p[this.p[this.p[xi + 1] + yi + 1] + zi + 1];
-
-        var x1, x2, y1, y2;
-        x1 = this.lerp(
-            this.grad3D(aaa, xf    , yf    , zf    ),
-            this.grad3D(baa, xf - 1, yf    , zf    ),
-            u
-        );
-        x2 = this.lerp(
-            this.grad3D(aba, xf    , yf - 1, zf    ),
-            this.grad3D(bba, xf - 1, yf - 1, zf    ),
-            u
-        );
-        y1 = this.lerp(x1, x2, v);
-
-        x1 = this.lerp(
-            this.grad3D(aab, xf    , yf    , zf - 1),
-            this.grad3D(bab, xf - 1, yf    , zf - 1),
-            u
-        );
-        x2 = this.lerp(
-            this.grad3D(abb, xf    , yf - 1, zf - 1),
-            this.grad3D(bbb, xf - 1, yf - 1, zf - 1),
-            u
-        );
-        y2 = this.lerp(x1, x2, v);
-
-        return this.lerp(y1, y2, w);
     }
 }
