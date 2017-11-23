@@ -8,14 +8,14 @@ const Resources = {
 };
 
 __ICE__.includes["JS"] = [
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/main.js",
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/noise.js",
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/atlas.js",
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/hexgrid.js",
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/camera.js",
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/input.js",
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/terraingenerator.js",
-    "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/51eb66b9/procedural-terrain/resources/js/mathf.js"
+    "/resources/js/main.js",
+    "/resources/js/noise.js",
+    "/resources/js/atlas.js",
+    "/resources/js/hexgrid.js",
+    "/resources/js/camera.js",
+    "/resources/js/input.js",
+    "/resources/js/terraingenerator.js",
+    "/resources/js/mathf.js"
 ];
 
 __ICE__.includes["IMG"] = {
