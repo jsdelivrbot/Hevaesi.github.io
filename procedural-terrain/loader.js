@@ -1,6 +1,9 @@
+const __LATEST_COMMIT__ = "503d3b25";
+
 const __ICE__ = {
     includes : {},
-    loaders : {}
+    loaders : {},
+    cdn_url : "https://cdn.rawgit.com/Hevaesi/Hevaesi.github.io/"+__LATEST_COMMIT__+"/procedural-terrain/resources/js/"
 };
 
 const Resources = {
@@ -8,14 +11,14 @@ const Resources = {
 };
 
 __ICE__.includes["JS"] = [
-    "https://hevaesi.github.io/procedural-terrain/resources/js/main.js",
-    "https://hevaesi.github.io/procedural-terrain/resources/js/noise.js",
-    "https://hevaesi.github.io/procedural-terrain/resources/js/atlas.js",
-    "https://hevaesi.github.io/procedural-terrain/resources/js/hexgrid.js",
-    "https://hevaesi.github.io/procedural-terrain/resources/js/camera.js",
-    "https://hevaesi.github.io/procedural-terrain/resources/js/input.js",
-    "https://hevaesi.github.io/procedural-terrain/resources/js/terraingenerator.js",
-    "https://hevaesi.github.io/procedural-terrain/resources/js/mathf.js"
+    "main.js",
+    "noise.js",
+    "atlas.js",
+    "hexgrid.js",
+    "camera.js",
+    "input.js",
+    "terraingenerator.js",
+    "mathf.js"
 ];
 
 __ICE__.includes["IMG"] = {
@@ -33,7 +36,7 @@ __ICE__.loaders["JS"] = (scripts, callback) => {
                 callback();
             }
         });
-        js.src = scripts[i];
+        js.src = __ICE__.cdn_url + scripts[i];
         head.appendChild(js);
     }
 };
