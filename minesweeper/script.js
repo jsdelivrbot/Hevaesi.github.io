@@ -200,7 +200,7 @@ class Game {
     clearFirstClick(x, y) {
         for(let _y = y - 1; _y <= y + 1; _y++) {
             for(let _x = x - 1; _x <= x + 1; _x++) {
-                tile = this.getTile(_x, _y)
+                var tile = this.getTile(_x, _y)
                 if(tile !== undefined) {
                     tile.ID = minesweeper.Tiles.Unrevealed;
                 }
