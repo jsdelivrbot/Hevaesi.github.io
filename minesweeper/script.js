@@ -200,9 +200,9 @@ class Game {
     clearFirstClick(x, y) {
         for(let _y = y - 1; _y <= y + 1; _y++) {
             for(let _x = x - 1; _x <= x + 1; _x++) {
-                if(_x >= 0 && _x < this.width - 1 && _x >= 0 && _y < this.height - 1) {
-                    this.getTile(_x, _y).ID = minesweeper.Tiles.Unrevealed;
-                    console.log("Clearing (" + _x + "," + _y + ")");
+                tile = this.getTile(_x, _y)
+                if(tile !== undefined) {
+                    tile.ID = minesweeper.Tiles.Unrevealed;
                 }
             }
         }
