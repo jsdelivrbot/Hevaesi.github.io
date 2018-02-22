@@ -61,7 +61,7 @@ class Game {
 
     reveal(x, y) {
         var tile = this.getTile(x, y);
-        if(!tile || tile.revealed || tile.flagged) {
+        if(tile.revealed || tile.flagged) {
             return;
         }
 
@@ -82,20 +82,42 @@ class Game {
             return;
         }
 
-        if(tile.neighbours < 1) {
+        if(tile.neighbours == 0) {
             this.revealNeighbours(x, y);
         }
     }
 
     revealNeighbours(x, y) {
-        this.reveal(x - 1, y);
-        this.reveal(x + 1, y);
-        this.reveal(x, y - 1);
-        this.reveal(x, y + 1);
-        this.reveal(x - 1, y - 1);
-        this.reveal(x + 1, y - 1);
-        this.reveal(x - 1, y + 1);
-        this.reveal(x + 1, y + 1);
+        if(x - 1 >= 0) {
+            this.reveal(x - 1, y);
+        }
+
+        if(x + 1 < this.width) {
+            this.reveal(x + 1, y);
+        }
+
+        if(y - 1 >= 0) {
+            this.reveal(x, y - 1);
+        }
+
+       if(y + 1 < this.height) {
+            this.reveal(x, y + 1);
+        }
+
+        if(x - 1 >= 0 && y - 1 >= 0) {
+            this.reveal(x - 1, y - 1);
+        }
+        if(x + 1 < this.width && y - 1 >= 0) {
+            this.reveal(x + 1, y - 1);
+        }
+
+        if(x - 1 >= 0 && y + 1 < this.height) {
+            this.reveal(x - 1, y + 1);
+        }
+
+        if(x + 1 < this.width && y + 1 < this.height) {
+            this.reveal(x + 1, y + 1);
+        }
     }
 
     flag(x, y) {
@@ -176,10 +198,11 @@ class Game {
     clearFirstClick(x, y) {
         for(let _y = y - 1; _y <= y + 1; _y++) {
             for(let _x = x - 1; _x <= x + 1; _x++) {
-                var tile = this.getTile(_x, _y)
-                if(tile) {
-                    this.unrevealed--;
-                    tile.ID = minesweeper.Tiles.Unrevealed;
+                if(_x >= 0 && _x < this.width && _y >= 0 && _y < this.height) {
+                    var tile = this.getTile(_x, _y);
+                    if(tile !== undefined) {
+                        tile.ID = minesweeper.Tiles.Unrevealed;
+                    }
                 }
             }
         }
@@ -198,9 +221,8 @@ class Game {
                 var neighbours = 0;
                 for(let _y = y - 1; _y <= y + 1; _y++) {
                     for(let _x = x - 1; _x <= x + 1; _x++) {
-                        var tile = this.getTile(_x, _y);
-                        if(tile) {
-                            if(tile.ID === minesweeper.Tiles.Mine) {
+                        if(_x >= 0 && _x < this.width && _y >= 0 && _y < this.height) {
+                            if(this.getTile(_x, _y).ID === minesweeper.Tiles.Mine) {
                                 neighbours++;
                             }
                         }
