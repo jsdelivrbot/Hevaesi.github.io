@@ -59,8 +59,13 @@ class Game {
         }
     }
 
-    reveal(x, y) {
+    reveal(x, y, directClick) {
         var tile = this.getTile(x, y);
+
+        if(tile.ID < 9 && tile.ID > 0 && directClick) {
+            this.revealUnflagged(x, y);
+        }
+
         if(tile.revealed || tile.flagged) {
             return;
         }
@@ -87,41 +92,127 @@ class Game {
         }
     }
 
-    revealNeighbours(x, y) {
-        if(x - 1 >= 0) {
-            this.reveal(x - 1, y);
+    revealUnflagged(x, y) {
+        var tile = this.getTile(x, y);
+        var flags = 0;
+        for(let _y = y - 1; _y <= y + 1; _y++) {
+            for(let _x = x - 1; _x <= x + 1; _x++) {
+                var neighbour = this.getTile(_x, _y);
+                if(neighbour !== undefined) {
+                    if(neighbour.flagged) {
+                        flags++;
+                    }
+                }
+            }
         }
-
-        if(x + 1 < this.width) {
-            this.reveal(x + 1, y);
-        }
-
-        if(y - 1 >= 0) {
-            this.reveal(x, y - 1);
-        }
-
-       if(y + 1 < this.height) {
-            this.reveal(x, y + 1);
-        }
-
-        if(x - 1 >= 0 && y - 1 >= 0) {
-            this.reveal(x - 1, y - 1);
-        }
-        if(x + 1 < this.width && y - 1 >= 0) {
-            this.reveal(x + 1, y - 1);
-        }
-
-        if(x - 1 >= 0 && y + 1 < this.height) {
-            this.reveal(x - 1, y + 1);
-        }
-
-        if(x + 1 < this.width && y + 1 < this.height) {
-            this.reveal(x + 1, y + 1);
+        if(flags == tile.ID) {
+            this.revealNeighbours(x, y);
         }
     }
 
-    flag(x, y) {
+    flagUnrevealed(x, y) {
         var tile = this.getTile(x, y);
+        var flags = 0;
+        var unrevealed = 0;
+        for(let _y = y - 1; _y <= y + 1; _y++) {
+            for(let _x = x - 1; _x <= x + 1; _x++) {
+                var neighbour = this.getTile(_x, _y);
+                if(neighbour !== undefined) {
+                    if(neighbour.flagged) {
+                        flags++;
+                    } else if(!neighbour.revealed) {
+                        unrevealed++;
+                    }
+                }
+            }
+        }
+        if(flags + unrevealed == tile.ID) {
+            this.flagNeighbours(x, y);
+        }
+
+        console.log("flags:", flags, "unrevealed:", unrevealed, "tile.ID:", tile.ID);
+    }
+
+    revealNeighbours(x, y) {
+        if(x - 1 >= 0) {
+            this.reveal(x - 1, y, false);
+        }
+
+        if(x + 1 < this.width) {
+            this.reveal(x + 1, y, false);
+        }
+
+        if(y - 1 >= 0) {
+            this.reveal(x, y - 1, false);
+        }
+
+       if(y + 1 < this.height) {
+            this.reveal(x, y + 1, false);
+        }
+
+        if(x - 1 >= 0 && y - 1 >= 0) {
+            this.reveal(x - 1, y - 1, false);
+        }
+        if(x + 1 < this.width && y - 1 >= 0) {
+            this.reveal(x + 1, y - 1, false);
+        }
+
+        if(x - 1 >= 0 && y + 1 < this.height) {
+            this.reveal(x - 1, y + 1, false);
+        }
+
+        if(x + 1 < this.width && y + 1 < this.height) {
+            this.reveal(x + 1, y + 1, false);
+        }
+    }
+
+    flagNeighbours(x, y) {
+        if(x - 1 >= 0) {
+            this.flag(x - 1, y, false);
+        }
+
+        if(x + 1 < this.width) {
+            this.flag(x + 1, y, false);
+        }
+
+        if(y - 1 >= 0) {
+            this.flag(x, y - 1, false);
+        }
+
+       if(y + 1 < this.height) {
+            this.flag(x, y + 1, false);
+        }
+
+        if(x - 1 >= 0 && y - 1 >= 0) {
+            this.flag(x - 1, y - 1, false);
+        }
+        if(x + 1 < this.width && y - 1 >= 0) {
+            this.flag(x + 1, y - 1, false);
+        }
+
+        if(x - 1 >= 0 && y + 1 < this.height) {
+            this.flag(x - 1, y + 1, false);
+        }
+
+        if(x + 1 < this.width && y + 1 < this.height) {
+            this.flag(x + 1, y + 1, false);
+        }
+    }
+
+    flag(x, y, directClick) {
+        var tile = this.getTile(x, y);
+
+        if(tile.ID < 9 && tile.ID > 0 && directClick) {
+            this.flagUnrevealed(x, y);
+            return;
+        }
+
+        if(!directClick && tile.ID > 8) {
+            tile.flagged = true;
+            minesweeper.textures.draw(minesweeper.Tiles.Flag, x * this.tileSize, y * this.tileSize);
+            return;
+        }
+
         if(!tile.revealed) {
             if(tile.flagged) {
                 tile.flagged = false;
@@ -138,7 +229,10 @@ class Game {
     }
 
     getTile(x, y) {
-        return this.board[this.height * y + x];
+        if(x < this.width && y < this.height && x >= 0 && y >= 0) {
+            return this.board[this.height * y + x];
+        }
+        return undefined;
     }
 
     click(button, x, y) {
@@ -155,11 +249,11 @@ class Game {
                 this.clearFirstClick(cellX, cellY);
                 this.calculateNeighbouringMines();
             }
-            this.reveal(cellX, cellY);
+            this.reveal(cellX, cellY, true);
         }
 
         if(button === minesweeper.Mouse.Right) {
-            this.flag(cellX, cellY);
+            this.flag(cellX, cellY, true);
         }
     }
 
